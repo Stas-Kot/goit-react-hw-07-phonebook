@@ -1,11 +1,13 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Form, BtnAddContact, Input } from './PhonebookForm.styles';
 import { addContact } from 'redux/phonebook-operations';
+import selectors from 'redux/phonebook-selectors';
 
-function PhonebookForm({ handleSubmit }) {
+function PhonebookForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(selectors.getFiltredContacts);
   const dispatch = useDispatch();
 
   const handleSetUserInfo = e => {
@@ -24,6 +26,11 @@ function PhonebookForm({ handleSubmit }) {
 
   const handleAddContact = e => {
     e.preventDefault();
+    if (contacts.find(savedContact => savedContact.name === name)) {
+      alert(`${name} is already in contacts`);
+      reset();
+      return;
+    }
     const handleSubmit = contact => dispatch(addContact({ name, number }));
     handleSubmit({ name, number });
 

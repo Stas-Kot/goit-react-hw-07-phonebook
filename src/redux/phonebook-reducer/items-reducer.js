@@ -7,10 +7,7 @@ import {
 
 export const entities = createReducer([], {
   [fetchContacts.fulfilled]: (state, { payload }) => [...state, ...payload],
-  [addContact.fulfilled]: (state, { payload }) =>
-    state.find(({ name }) => name === payload.name)
-      ? (alert(`${payload.name} is already in contacts`), [...state])
-      : [...state, payload],
+  [addContact.fulfilled]: (state, { payload }) => [...state, payload],
   [deleteContact.fulfilled]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });
